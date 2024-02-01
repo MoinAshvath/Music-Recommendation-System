@@ -1,4 +1,4 @@
-## Music Recommender System Readme
+## Music Recommender System 
 
 ## Overview
 This repository contains the backend and frontend components of a Music Recommender System. The backend is implemented in Python, utilizing machine learning models to recommend music based on user preferences. The frontend is implemented using Streamlit, providing a user-friendly interface to interact with the recommendation system.
