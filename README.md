@@ -18,9 +18,9 @@ This repository contains the backend and frontend components of a Music Recommen
 
 
 ## How to Use
-Clone the repository and install dependencies.
-Run the Streamlit web application using streamlit run web.py.
-Input your music preferences such as music name and number of recommendations.
-Explore personalized music recommendations and enjoy discovering new tracks.
+1. Clone the repository and install dependencies.
+2. Run the Streamlit web application using streamlit run web.py.
+3. Input your music preferences such as music name and number of recommendations.
+4. Explore personalized music recommendations and enjoy discovering new tracks.
 
 
