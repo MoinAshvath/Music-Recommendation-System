@@ -2,7 +2,7 @@
 
 
 ## Overview
-This repository contains the backend and frontend components of a Music Recommender System. The backend is implemented in Python, utilizing machine learning models to recommend music based on user preferences. The frontend is implemented using Streamlit, providing a user-friendly interface to interact with the recommendation system.
+"Welcome to our Music Recommendation System repository! Here, we've implemented a comprehensive solution that leverages datasets to make data preprocessing techniques, and machine learning models to deliver personalized music recommendations. 
 
 ## Files
 
@@ -10,7 +10,7 @@ This repository contains the backend and frontend components of a Music Recommen
 
 2. `genres_v2.csv`: This CSV file is the dataset used for training the machine learning models.
 
-3. `web.py`: This Python file contains the Streamlit code for the web interface of the music recommender system. It handles user interactions and displays recommendations.
+3. `web.py`: This Python file contains the Streamlit code for the web interface of the music recommender that seamlessly integrates with our models, providing users with an intuitive platform for user interactions and displays recommendations.
 
 4. `images/`: This folder contains additional images used in the web interface for enhancing user experience.
 
