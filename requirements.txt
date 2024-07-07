@@ -2,7 +2,7 @@ streamlit
 scikit-learn
 numpy
 pandas
-cv2
+OpenCV
 av
 mediapipe
 opencv-python-headless
