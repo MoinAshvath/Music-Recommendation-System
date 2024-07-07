@@ -5,3 +5,4 @@ pandas
 mediapipe
 opencv-python-headless
 streamlit-lottie
+streamlit_webrtc
