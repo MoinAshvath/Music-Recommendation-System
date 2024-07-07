@@ -1,0 +1,9 @@
+mediapipe==0.10.14
+streamlit
+scikit-learn
+numpy
+pandas
+keras==3.4.1
+tensorflow==2.16.2
+streamlit-lottie
+streamlit_webrtc
