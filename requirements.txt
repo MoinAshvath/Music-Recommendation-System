@@ -3,6 +3,6 @@ streamlit
 scikit-learn
 numpy
 pandas
-keras
+keras==2.15.0
 streamlit-lottie
 streamlit_webrtc
