@@ -6,6 +6,7 @@ opencv-python-headless
 av
 keras
 tensorflow
+webbrowser
 mediapipe
 streamlit-lottie
 streamlit_webrtc
