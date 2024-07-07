@@ -4,8 +4,23 @@ import time
 import pickle
 import os
 import pandas as pd
+import numpy as np
 from sklearn.neighbors import NearestNeighbors
 from streamlit_lottie import st_lottie
+
+# @st.cache_data
+# def load_pickled_data():                                        # Cached to load faster
+#     with open("recommend_songs_by_name.pkl", "rb") as f:
+#         recommend_songs_by_name, dataset, Mtr, Mtr1 = pickle.load(f)
+#     return recommend_songs_by_name, dataset, Mtr, Mtr1
+# recommend_songs_by_name, dataset, Mtr, Mtr1 = load_pickled_data()
+
+# @st.cache_data
+# def load_lottiefile(animation: str):
+#     with open(animation, "r") as f:
+#         return json.load(f)
+# lottie_file = load_lottiefile("animation/ani2.json")
+
 
 # Load the pickled function and dataset
 with open("recommend_songs_by_name.pkl", "rb") as f:
@@ -36,25 +51,17 @@ song_name_to_index = pd.Series(song_name_to_index)
 
 
 def recommend_songs_by_name(input_song_name, k_value, dataset):
-    
     input_song_name = str(input_song_name).lower()             # Checking if the input song name exists in the mapping dictionary
 
     if input_song_name not in song_name_to_index:
         return "Song not found in the dataset"
-
     input_song_index = song_name_to_index[input_song_name]     # Getting the index of the input song
-
 
     knn_model = NearestNeighbors(n_neighbors=k_value, algorithm='auto')       # Initializing the NearestNeighbors model
     knn_model.fit(dataset[['danceability','energy','acousticness','instrumentalness','tempo','duration_ms']])
-
     # Finding K-nearest neighbors of input song
     _, indices = knn_model.kneighbors([dataset.iloc[input_song_index][['danceability','energy','acousticness','instrumentalness','tempo','duration_ms']]])
-
     recommended_song_ids = dataset.iloc[indices[0]]['track_id']                   # Get the track IDs of the recommended songs
-
-
-
     return recommended_song_ids            
 
 
@@ -63,9 +70,9 @@ def recommend_songs_by_name(input_song_name, k_value, dataset):
 
 st.title("Music Recommendation System")
 
-selection = st.sidebar.selectbox("Choose an option: ",["Song Name", "Find one"])
+selection = st.sidebar.selectbox("Choose an option: ",["Song-based Recommend", "Emotion-based Recommend"])
 
-if selection=="Song Name":
+if selection=="Song-based Recommend":
     st_lottie(lottie_file,height=150,width=1280,speed=1)
     # User input for the song name
     input_song_name = st.text_input("Enter the song name:")
@@ -86,15 +93,13 @@ if selection=="Song Name":
                         st.write(Mtr.iloc[song_id])
                         st.image(get_album_cover_path(Mtr.iloc[song_id]),width=200)
                         st.write()
-                       
-
             else:
                 st.warning("Enter a valid number of recommendation")
         else:
             st.warning("Please enter a song name")
 
 
-if selection=="Find one":
+if selection=="Emotion-based Recommend":
     import streamlit as st
     from streamlit_webrtc import webrtc_streamer
     import av
@@ -104,44 +109,44 @@ if selection=="Find one":
     from keras.models import load_model
     import webbrowser
 
-    model  = load_model("emotions\model.h5")
-    label = np.load("emotions\labels.npy")
+    model  = load_model("model.h5")
+    label = np.load("labels.npy")
     holistic = mp.solutions.holistic
     hands = mp.solutions.hands
     holis = holistic.Holistic()
     drawing = mp.solutions.drawing_utils
-    
+
     st.header("Emotion Based Music Recommender")
-    
+
     if "run" not in st.session_state:
         st.session_state["run"] = "true"
-    
+
     try:
-        emotion = np.load("emotions\emotion.npy")[0]
+        emotion = np.load("emotion.npy")[0]
     except:
         emotion=""
-    
+
     if not(emotion):
         st.session_state["run"] = "true"
     else:
         st.session_state["run"] = "false"
-    
+
     class EmotionProcessor:
         def recv(self, frame):
             frm = frame.to_ndarray(format="bgr24")
-    
+
             ##############################
             frm = cv2.flip(frm, 1)
-    
+
             res = holis.process(cv2.cvtColor(frm, cv2.COLOR_BGR2RGB))
-    
+
             lst = []
-    
+
             if res.face_landmarks:
                 for i in res.face_landmarks.landmark:
                     lst.append(i.x - res.face_landmarks.landmark[1].x)
                     lst.append(i.y - res.face_landmarks.landmark[1].y)
-    
+
                 if res.left_hand_landmarks:
                     for i in res.left_hand_landmarks.landmark:
                         lst.append(i.x - res.left_hand_landmarks.landmark[8].x)
@@ -149,7 +154,7 @@ if selection=="Find one":
                 else:
                     for i in range(42):
                         lst.append(0.0)
-    
+
                 if res.right_hand_landmarks:
                     for i in res.right_hand_landmarks.landmark:
                         lst.append(i.x - res.right_hand_landmarks.landmark[8].x)
@@ -157,26 +162,26 @@ if selection=="Find one":
                 else:
                     for i in range(42):
                         lst.append(0.0)
-    
+
                 lst = np.array(lst).reshape(1,-1)
-    
+
                 pred = label[np.argmax(model.predict(lst))]
-    
+
                 print(pred)
                 cv2.putText(frm, pred, (50,50),cv2.FONT_ITALIC, 1, (255,0,0),2)
-    
-                np.save("emotions\emotion.npy", np.array([pred]))
-    
+
+                np.save("emotion.npy", np.array([pred]))
+
                 
             drawing.draw_landmarks(frm, res.face_landmarks, holistic.FACEMESH_TESSELATION,
                                     landmark_drawing_spec=drawing.DrawingSpec(color=(0,0,255), thickness=-1, circle_radius=1),
                                     connection_drawing_spec=drawing.DrawingSpec(thickness=1))
             drawing.draw_landmarks(frm, res.left_hand_landmarks, hands.HAND_CONNECTIONS)
             drawing.draw_landmarks(frm, res.right_hand_landmarks, hands.HAND_CONNECTIONS)
-    
-    
+
+
             ##############################
-    
+
             return av.VideoFrame.from_ndarray(frm, format="bgr24")
 
     lang = st.text_input("Language")
@@ -194,9 +199,5 @@ if selection=="Find one":
             st.session_state["run"] = "true"
         else:
             webbrowser.open(f"https://www.youtube.com/results?search_query={lang}+{emotion}+song+{singer}")
-            np.save("emotions\emotion.npy", np.array([""]))
+            np.save("emotion.npy", np.array([""]))
             st.session_state["run"] = "false"
-
-         
-        
-
