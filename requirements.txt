@@ -3,7 +3,7 @@ streamlit
 scikit-learn
 numpy
 pandas
-keras==2.15.0
-tensorflow==2.15.0
+keras==3.4.1
+tensorflow==2.16.2
 streamlit-lottie
 streamlit_webrtc
