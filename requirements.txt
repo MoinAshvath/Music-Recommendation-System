@@ -2,7 +2,7 @@ streamlit
 scikit-learn
 numpy
 pandas
-opencv-python==4.10.0
+opencv-python==4.10.0.82
 av
 mediapipe
 streamlit-lottie
