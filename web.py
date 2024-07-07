@@ -109,8 +109,8 @@ if selection=="Emotion-based Recommend":
     from keras.models import load_model
     import webbrowser
 
-    model  = load_model("model.h5")
-    label = np.load("labels.npy")
+    model  = load_model("emotions/model.h5")
+    label = np.load("emotions/labels.npy")
     holistic = mp.solutions.holistic
     hands = mp.solutions.hands
     holis = holistic.Holistic()
@@ -122,7 +122,7 @@ if selection=="Emotion-based Recommend":
         st.session_state["run"] = "true"
 
     try:
-        emotion = np.load("emotion.npy")[0]
+        emotion = np.load("emotions/emotion.npy")[0]
     except:
         emotion=""
 
@@ -170,7 +170,7 @@ if selection=="Emotion-based Recommend":
                 print(pred)
                 cv2.putText(frm, pred, (50,50),cv2.FONT_ITALIC, 1, (255,0,0),2)
 
-                np.save("emotion.npy", np.array([pred]))
+                np.save("emotions/emotion.npy", np.array([pred]))
 
                 
             drawing.draw_landmarks(frm, res.face_landmarks, holistic.FACEMESH_TESSELATION,
@@ -199,5 +199,5 @@ if selection=="Emotion-based Recommend":
             st.session_state["run"] = "true"
         else:
             webbrowser.open(f"https://www.youtube.com/results?search_query={lang}+{emotion}+song+{singer}")
-            np.save("emotion.npy", np.array([""]))
+            np.save("emotions/emotion.npy", np.array([""]))
             st.session_state["run"] = "false"
