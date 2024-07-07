@@ -3,7 +3,6 @@ streamlit
 scikit-learn
 numpy
 pandas
-opencv-python
 keras
 tensorflow
 streamlit-lottie
