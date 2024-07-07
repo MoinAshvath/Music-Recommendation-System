@@ -1,9 +1,1 @@
-streamlit
-scikit-learn
-numpy
-pandas
-av
-mediapipe
-opencv-python-headless
-streamlit-lottie
-streamlit_webrtc
+
