@@ -3,8 +3,8 @@ scikit-learn
 numpy
 pandas
 opencv-python-headless
-av
 keras
+tensorflow
 mediapipe
 streamlit-lottie
 streamlit_webrtc
