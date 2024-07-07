@@ -1,0 +1,7 @@
+streamlit
+scikit-learn
+numpy
+pandas
+mediapipe
+opencv-python-headless
+streamlit-lottie
