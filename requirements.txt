@@ -4,6 +4,5 @@ scikit-learn
 numpy
 pandas
 keras
-tensorflow
 streamlit-lottie
 streamlit_webrtc
