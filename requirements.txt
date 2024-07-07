@@ -1,1 +1,10 @@
 mediapipe
+streamlit
+scikit-learn
+numpy
+pandas
+opencv-python-headless
+keras
+tensorflow
+streamlit-lottie
+streamlit_webrtc
