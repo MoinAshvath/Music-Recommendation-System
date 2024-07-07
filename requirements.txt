@@ -5,6 +5,5 @@ pandas
 opencv-python-headless
 keras
 tensorflow
-mediapipe
 streamlit-lottie
 streamlit_webrtc
