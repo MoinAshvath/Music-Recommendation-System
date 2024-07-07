@@ -2,8 +2,6 @@ streamlit
 scikit-learn
 numpy
 pandas
-OpenCV
-av
 mediapipe
 opencv-python-headless
 streamlit-lottie
